@@ -1,0 +1,21 @@
+{
+    "name": "adapt-text-widow",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/rickryan30/adapt-text-widow"
+    },
+    "framework": ">=2",
+    "version": "1.0.1",
+    "homepage": "https://github.com/rickryan30/adapt-text-widow",
+    "issues": "https://github.com/rickryan30/adapt-text-widow/issues/",
+    "displayName": "Text Widow",
+    "extension": "Text Widow",
+    "description": "An extension that will prevent a single word that appears on the paragraph-ending line.",
+    "main": "/js/adapt-text-widow.js",
+    "keywords": [
+        "adapt-plugin",
+        "adapt-extension"
+    ],
+    "targetAttribute": "_textWidow",
+    "license": "GPL-3.0"
+}
