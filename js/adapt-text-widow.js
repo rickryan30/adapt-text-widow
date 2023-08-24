@@ -18,7 +18,6 @@ define([
 
 		render: function() {
 			var articleEl = this.model.get('_articleView').$el;
-			console.log(articleEl);
 			const modelArticle = Array.from(articleEl);
 			var articleArr = [];
 
@@ -40,26 +39,24 @@ define([
 									const dataChild = Array.from(elementChild.children);
 									if (dataChild.length > 0) {
 										dataChild.forEach(elementChildIn => {
-											console.log("." + elementChildIn.parentElement.parentElement.className + " " + elementChildIn.parentElement.localName + " " + elementChildIn.localName);
+											articleArr.push("." + elementChildIn.parentElement.parentElement.className + " " + elementChildIn.parentElement.localName + " " + elementChildIn.localName);
 										});
 									} else {
-										console.log("." + elementChild.parentElement.className + " " + elementChild.localName);
+										articleArr.push("." + elementChild.parentElement.className + " " + elementChild.localName);
 									}
 								});
 							} else {
-								console.log("." + elementTitBodIn.classList[0]);
+								articleArr.push("." + elementTitBodIn.classList[0]);
 							}
 						});
 					});
 				});
 
-				// console.log(articleArr);
-				// const articleViewResult = this.removeDuplicates(articleArr);
-				// console.log(articleViewResult);
-				// articleViewResult.forEach(elementArticleView => {
-				// 	const dataArticleView = $(elementArticleView, $article);
-				// 	return dataArticleView.length > 0 ? this.checkTextWidow(dataArticleView) : '';
-				// });
+				const articleViewResult = this.removeDuplicates(articleArr);
+				articleViewResult.forEach(elementArticleView => {
+					const dataArticleView = $(elementArticleView, articleEl);
+					return dataArticleView.length > 0 ? this.checkTextWidow(dataArticleView) : '';
+				});
 			});
 		},
 
@@ -102,11 +99,11 @@ define([
 								});
 							}
 						});
-						// const blockViewResult = this.removeDuplicates(blockArr);
-						// blockViewResult.forEach(elementBlockView => {
-						// 	const dataBlockView = $(elementBlockView, view.$el);
-						// 	return dataBlockView.length > 0 ? this.checkTextWidow(dataBlockView) : null;
-						// });
+						const blockViewResult = this.removeDuplicates(blockArr);
+						blockViewResult.forEach(elementBlockView => {
+							const dataBlockView = $(elementBlockView, view.$el);
+							return dataBlockView.length > 0 ? this.checkTextWidow(dataBlockView) : null;
+						});
 					});
 
 				}
@@ -194,10 +191,10 @@ define([
 				});
 			},
 
-			// removeDuplicates: function(arr) {
-			// 	return arr.filter((item,
-			// 		index) => arr.indexOf(item) === index);
-			// },
+			removeDuplicates: function(arr) {
+				return arr.filter((item,
+					index) => arr.indexOf(item) === index);
+			},
 
 			onRemove: function() {
 				this.model.get('_articleView').$el.removeClass('text-widow');
