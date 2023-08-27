@@ -1,3 +1,5 @@
+const { object } = require("underscore");
+
 define([
 	'core/js/adapt'
 ], function(Adapt) {
@@ -122,13 +124,20 @@ define([
 						const modelComponent = this.model.get('_componentViews');
 						var componentArr = [];
 
-						// modelComponent.forEach(elementComponent => {
-						// 	// component result
-						// 	const dataComponent = Array.from(elementComponent.$el.context.firstElementChild.children);
+						modelComponent.forEach(elementComponent => {
+							// component result
+							const dataComponent = Array.from(elementComponent.$el.context.firstElementChild.children);
 							
-						// 	if (dataComponent.length > 1) {
-						// 		console.log(dataComponent);
-						// 	}
+							
+							if (dataComponent.length > 1) {
+								console.log(dataComponent);
+								console.log(Object.keys(dataComponent));
+								// if(Object.keys(dataComponent)[1] == 1){
+								// 	console.log(Object.keys(dataComponent))
+								// } else {
+								// 	console.log(Object.keys(dataComponent))
+								// }
+							} 
 						// 	dataComponent.forEach(elementHeadWidgt => {
 						// 		// component header - widget
 						// 		const dataHeadWidgt = Array.from(elementHeadWidgt.children);
@@ -171,7 +180,7 @@ define([
 						// 	// 	const dataComponentView = $(elementComponentView, view.$el);
 						// 	// 	return dataComponentView.length > 0 ? this.checkTextWidow(dataComponentView) : '';
 						// 	// });
-						// });
+						});
 					}
 				}
 			},
