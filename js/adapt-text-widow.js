@@ -1,3 +1,5 @@
+const { object } = require("underscore");
+
 define([
 	'core/js/adapt'
 ], function(Adapt) {
