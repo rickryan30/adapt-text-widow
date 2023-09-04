@@ -1,5 +1,3 @@
-const { object } = require("underscore");
-
 define([
 	'core/js/adapt'
 ], function(Adapt) {
@@ -97,11 +95,6 @@ define([
 						$(this).html(wordArray.join(" "));
 					}
 				});
-			},
-
-			removeDuplicates: function(arr) {
-				return arr.filter((item,
-					index) => arr.indexOf(item) === index);
 			},
 
 			onRemove: function() {
