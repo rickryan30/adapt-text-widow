@@ -5,7 +5,7 @@
         "url": "git://github.com/rickryan30/adapt-text-widow"
     },
     "framework": ">=2",
-    "version": "1.0.1",
+    "version": "2.0.1",
     "homepage": "https://github.com/rickryan30/adapt-text-widow",
     "issues": "https://github.com/rickryan30/adapt-text-widow/issues/",
     "displayName": "Text Widow",
