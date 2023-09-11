@@ -1,5 +1,5 @@
 define([
-	'core/js/adapt'
+	'core/js/adapt',
 ], function(Adapt) {
 
 	var WidowText = Backbone.View.extend({
@@ -23,7 +23,8 @@ define([
 			const checkEmptyArr = articleModel.get('_classes').split(' ');
 			const hasAnyEmptyElement = checkEmptyArr.filter(item => item);
 			var includesArr = hasAnyEmptyElement.length > 0 && hasAnyEmptyElement.includes("disabled-textwidow");
-			if (includesArr !== true) {
+
+			if (!includesArr) {
 				$("[class$='-title'] > [class^='article']", articleElement).length > 0 && this.checkTextWidow($("[class$='-title'] > [class^='article']", articleElement));
 				$("[class$='-body'] > [class^='article'] > p", articleElement).length > 0 && this.checkTextWidow($("[class$='-body'] > [class^='article'] > p", articleElement));
 				$("[class$='-body'] > [class^='article'] > ul li", articleElement).length > 0 && this.checkTextWidow($("[class$='-body'] > [class^='article'] > ul li", articleElement));
@@ -41,7 +42,7 @@ define([
 				const checkEmptyArr = view.model.get('_classes').split(' ');
 				const hasAnyEmptyElement = checkEmptyArr.filter(item => item);
 				var includesArr = hasAnyEmptyElement.length > 0 && hasAnyEmptyElement.includes("disabled-textwidow");
-				if (includesArr !== true) {
+				if (!includesArr) {
 					$("[class$='-inner'] > [class$='-title'] > [class^='block']", view.$el).length > 0 && this.checkTextWidow($("[class$='-inner'] > [class$='-title'] > [class^='block']", view.$el));
 					$("[class$='-body'] > [class^='block'] > p", view.$el).length > 0 && this.checkTextWidow($("[class$='-body'] > [class^='block'] > p", view.$el));
 					$("[class$='-body'] > [class^='block'] > ul li", view.$el).length > 0 && this.checkTextWidow($("[class$='-body'] > [class^='block'] > ul li", view.$el));
@@ -53,14 +54,17 @@ define([
 		onComponentViewRendered: function(view) {
 			var $articleParentId = view.model.findAncestor('articles').get('_id');
 			var $articleChildId = this.model.get('_articleView').model.get('_id');
-
+			
 			if ($articleParentId === $articleChildId) {
 				this.model.get('_componentViews').push(view);
 				const checkEmptyArr = view.model.get('_classes').split(' ');
 				const hasAnyEmptyElement = checkEmptyArr.filter(item => item);
-				var includesArr = hasAnyEmptyElement.length > 0 && hasAnyEmptyElement.includes("disabled-textwidow");
+				const includesArr = hasAnyEmptyElement.length > 0 && hasAnyEmptyElement.includes("disabled-textwidow");
+				const componentTypeArr = view.model.get('_component').length > 0 && view.model.get('_component') == "blank";
 				
-				if (view.model.get('_component') !== 'blank' && includesArr !== true) {
+				if (!componentTypeArr && !includesArr) {
+					view.$el.addClass('component-textwidow');
+					
 					if ($("[class$='-title']", view.$el).length > 0) {
 						$("[class$='-title'] > [class$='-inner']", view.$el).length > 0 ? this.checkTextWidow($("[class$='-title'] > [class$='-inner']", view.$el)) : this.checkTextWidow($("[class$='-title']", view.$el));
 					}
@@ -82,25 +86,25 @@ define([
 			}
 		},
 			  
-			checkTextWidow: function(textWidowValue) {
-				textWidowValue.each(function(){
-					var trimSpaces = $(this).html().trim();
-					var wordArray = trimSpaces.split(" ");
+		checkTextWidow: function(textWidowValue) {
+			textWidowValue.each(function(){
+				var trimSpaces = $(this).html().trim();
+				var wordArray = trimSpaces.split(" ");
+				
+				if (wordArray.length > 1) {
+					wordArray[wordArray.length-2] += "&nbsp;" + wordArray[wordArray.length-1];
+					var lastword = wordArray.pop();
 					
-					if (wordArray.length > 1) {
-						wordArray[wordArray.length-2] += "&nbsp;" + wordArray[wordArray.length-1];
-						var lastword = wordArray.pop();
-						
-						lastword = lastword.replace(/\s([^\s<]{0,10})\s*$/, "&nbsp;$1");
-						$(this).html(wordArray.join(" "));
-					}
-				});
-			},
+					lastword = lastword.replace(/\s([^\s<]{0,10})\s*$/, "&nbsp;$1");
+					$(this).html(wordArray.join(" "));
+				}
+			});
+		},
 
-			onRemove: function() {
-				this.model.get('_articleView').$el.removeClass('text-widow');
-				this.remove();
-			}
+		onRemove: function() {
+			this.model.get('_articleView').$el.removeClass('text-widow');
+			this.remove();
+		}
 	});
 
 	Adapt.on('articleView:postRender', function(view) {
